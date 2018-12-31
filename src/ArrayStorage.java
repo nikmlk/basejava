@@ -5,45 +5,43 @@ import java.util.Arrays;
  */
 public class ArrayStorage {
     private Resume[] storage = new Resume[10000];
-    private int index = -1;
+    private int index = 0;
 
     void clear() {
         for (int i = 0; i < size(); i++) {
             storage[i] = null;
-        };
-        index = -1;
+        }
+        ;
+        index = 0;
     }
 
     void save(Resume r) {
-        index = index + 1 == storage.length ? index : index + 1;
         storage[index] = r;
+        index = index + 1 == storage.length ? index : index + 1;
     }
 
     Resume get(String uuid) {
-        int endRange = index + 1;
-        return Arrays.stream(Arrays.copyOf(storage, endRange))
-                .filter(resume -> resume.uuid.equals(uuid))
-                .findFirst()
-                .orElse(null);
+        int index = findIndex(uuid);
+        return index == -1 ? null : storage[index];
     }
 
     void delete(String uuid) {
-        int ind = findIndex(uuid);
-        if (ind != -1){
-            for (int i = ind; i < size(); i++) {
-                if (i + 1 == size()){
+        int index = findIndex(uuid);
+        if (index != -1) {
+            for (int i = index; i < size(); i++) {
+                if (i + 1 == size()) {
                     storage[i] = null;
-                }else {
+                } else {
                     storage[i] = storage[i + 1];
                 }
             }
-            index = index - 1;
+            this.index = this.index - 1 < 0 ? 0 : this.index - 1;
         }
     }
 
     private int findIndex(String uuid) {
         for (int i = 0; i < size(); i++) {
-            if (storage[i].uuid.equals(uuid)){
+            if (storage[i].uuid.equals(uuid)) {
                 return i;
             }
         }
@@ -54,10 +52,10 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOf(storage, index + 1);
+        return Arrays.copyOf(storage, index);
     }
 
     int size() {
-        return index + 1;
+        return index;
     }
 }
