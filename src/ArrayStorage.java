@@ -8,7 +8,9 @@ public class ArrayStorage {
     private int index = -1;
 
     void clear() {
-        storage = new Resume[10000];
+        for (int i = 0; i < size(); i++) {
+            storage[i] = null;
+        };
         index = -1;
     }
 
