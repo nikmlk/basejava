@@ -17,7 +17,7 @@ public class ArrayStorage {
 
     void save(Resume r) {
         storage[index] = r;
-        index = index + 1 == storage.length ? index : index + 1;
+        index = index + 1 == storage.length ? index : index++;
     }
 
     Resume get(String uuid) {
@@ -35,7 +35,7 @@ public class ArrayStorage {
                     storage[i] = storage[i + 1];
                 }
             }
-            this.index = this.index - 1 < 0 ? 0 : this.index - 1;
+            this.index = this.index - 1 < 0 ? 0 : this.index--;
         }
     }
 
